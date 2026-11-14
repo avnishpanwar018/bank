@@ -1,0 +1,377 @@
+{
+  "tests": 55,
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "BoundedQueueTest",
+      "tests": 3,
+      "testsuite": [
+        {
+          "name": "ProducerAndConsumerReceiveEveryValue",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/bounded_queue_test.cpp",
+          "line": 13
+        },
+        {
+          "name": "CloseUnblocksAllWaitingConsumers",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/bounded_queue_test.cpp",
+          "line": 35
+        },
+        {
+          "name": "S3ManyProducersWithCapacityOneDoNotLoseValues",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/bounded_queue_test.cpp",
+          "line": 58
+        }
+      ]
+    },
+    {
+      "name": "ConnectionPoolTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "SixteenThreadsNeverHoldMoreThanTwoLeases",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/concurrency_integration_test.cpp",
+          "line": 37
+        }
+      ]
+    },
+    {
+      "name": "ThreadPoolTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "AllSubmittedRequestsCompleteExactlyOnce",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/concurrency_integration_test.cpp",
+          "line": 71
+        }
+      ]
+    },
+    {
+      "name": "UnsafeRaceTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "R2ReportsLostUpdatesAcrossTwentyRuns",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/concurrency_integration_test.cpp",
+          "line": 134
+        }
+      ]
+    },
+    {
+      "name": "LockManagerTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "DuplicateIdsProduceOneReentrantSafeScope",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/synchronization_integration_test.cpp",
+          "line": 89
+        }
+      ]
+    },
+    {
+      "name": "SynchronizationTest",
+      "tests": 4,
+      "testsuite": [
+        {
+          "name": "R1SafeConcurrentDepositsReachExpectedBalance",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/synchronization_integration_test.cpp",
+          "line": 95
+        },
+        {
+          "name": "R3ConcurrentWithdrawalsNeverOverdraw",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/synchronization_integration_test.cpp",
+          "line": 132
+        },
+        {
+          "name": "D1OpposingTransfersCompleteWithoutDeadlock",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/synchronization_integration_test.cpp",
+          "line": 173
+        },
+        {
+          "name": "D2RingTransfersCompleteWithoutDeadlock",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/synchronization_integration_test.cpp",
+          "line": 228
+        }
+      ]
+    },
+    {
+      "name": "Phase5Fixture",
+      "tests": 6,
+      "testsuite": [
+        {
+          "name": "D3RetriesDeadlockAndSucceedsOnThirdAttempt",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/phase5_integration_test.cpp",
+          "line": 93
+        },
+        {
+          "name": "D3ExhaustionReturnsFinalRollback",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/phase5_integration_test.cpp",
+          "line": 112
+        },
+        {
+          "name": "X4DatabaseCheckConstraintRejectsNegativeBalance",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/phase5_integration_test.cpp",
+          "line": 129
+        },
+        {
+          "name": "X1InjectedFailureAfterDebitRollsBackBothAccounts",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/phase5_integration_test.cpp",
+          "line": 156
+        },
+        {
+          "name": "I5LedgerReplayMatchesBalances",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/phase5_integration_test.cpp",
+          "line": 179
+        },
+        {
+          "name": "RecoveryResolvesPendingWithoutLedgerAsCrashRollback",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/phase5_integration_test.cpp",
+          "line": 219
+        }
+      ]
+    },
+    {
+      "name": "StressTest",
+      "tests": 4,
+      "testsuite": [
+        {
+          "name": "S1HundredClientsMixedOperations",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/stress_integration_test.cpp",
+          "line": 159
+        },
+        {
+          "name": "S2NinetyPercentHotspot",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/stress_integration_test.cpp",
+          "line": 169
+        },
+        {
+          "name": "S4PoolSizeTwoWithThirtyTwoWorkers",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/stress_integration_test.cpp",
+          "line": 177
+        },
+        {
+          "name": "S3RequestQueueSizeOneWithHundredProducers",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/stress_integration_test.cpp",
+          "line": 185
+        }
+      ]
+    },
+    {
+      "name": "ConfigTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "LoadsDotenvWithoutOverridingExistingEnvironment",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/config_test.cpp",
+          "line": 20
+        }
+      ]
+    },
+    {
+      "name": "MoneyTest",
+      "tests": 2,
+      "testsuite": [
+        {
+          "name": "ParsesAndFormatsMinorUnitsWithoutFloatingPoint",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/money_test.cpp",
+          "line": 11
+        },
+        {
+          "name": "RejectsMoreThanTwoFractionalDigits",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/money_test.cpp",
+          "line": 19
+        }
+      ]
+    },
+    {
+      "name": "MonitorTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "EmitsSnapshotAndStopsWithoutWaitingForAnInterval",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/monitor_test.cpp",
+          "line": 13
+        }
+      ]
+    },
+    {
+      "name": "DashboardHttpTest",
+      "tests": 9,
+      "testsuite": [
+        {
+          "name": "ServesFrontendLocalAssetsAndIdleStatsWithoutDatabase",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_http_test.cpp",
+          "line": 200
+        },
+        {
+          "name": "StreamsFirstCompleteStatsEventAndAllowsClientCancellation",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_http_test.cpp",
+          "line": 234
+        },
+        {
+          "name": "RejectsInvalidAccountPaginationBeforeDatabaseAccess",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_http_test.cpp",
+          "line": 268
+        },
+        {
+          "name": "RejectsInvalidTransactionLimitsAndStatusBeforeDatabaseAccess",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_http_test.cpp",
+          "line": 280
+        },
+        {
+          "name": "RejectsSimulationBadJsonTypesRangesAndUnsupportedOptions",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_http_test.cpp",
+          "line": 290
+        },
+        {
+          "name": "ValidatesTransactionsBeforeReportingIdleConflict",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_http_test.cpp",
+          "line": 319
+        },
+        {
+          "name": "RejectsMalformedMaintenanceBodiesEvenWhenIdle",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_http_test.cpp",
+          "line": 349
+        },
+        {
+          "name": "RejectsMalformedMissingUnknownAndWrongTypeDemoNames",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_http_test.cpp",
+          "line": 364
+        },
+        {
+          "name": "RejectsCrossOriginCommandsAndReboundHosts",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_http_test.cpp",
+          "line": 373
+        }
+      ]
+    },
+    {
+      "name": "DashboardDatabaseHttpTest",
+      "tests": 7,
+      "testsuite": [
+        {
+          "name": "PaginatesSeededAccountsAndRunsIdleMaintenance",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_http_test.cpp",
+          "line": 499
+        },
+        {
+          "name": "LimitsAndFiltersCommittedAndRolledBackTransactions",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_http_test.cpp",
+          "line": 556
+        },
+        {
+          "name": "CrashDemoUsesInFlightAbortHookAndPreservesBothAccounts",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_http_test.cpp",
+          "line": 600
+        },
+        {
+          "name": "SafeAndRaceDemosReportMeasuredBalanceOutcomes",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_http_test.cpp",
+          "line": 614
+        },
+        {
+          "name": "DashboardSessionIsolationChoicesKeepTheSafePathCorrect",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_http_test.cpp",
+          "line": 637
+        },
+        {
+          "name": "ManualTransactionsUseSimulationQueueCountersAndLedger",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_http_test.cpp",
+          "line": 652
+        },
+        {
+          "name": "ConcurrentReadEndpointsRemainAvailableDuringHundredClientSimulationAndStop",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_http_test.cpp",
+          "line": 769
+        }
+      ]
+    },
+    {
+      "name": "DashboardCountersTest",
+      "tests": 4,
+      "testsuite": [
+        {
+          "name": "StartsEmptyAndRecordsFinalStatusRetryAndLatencyTotals",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_counters_test.cpp",
+          "line": 35
+        },
+        {
+          "name": "ClassifiesKnownReasonPrefixesAndPreservesUnknownFailures",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_counters_test.cpp",
+          "line": 69
+        },
+        {
+          "name": "HistogramHandlesZeroPowerOfTwoBoundariesAndSaturatingTail",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_counters_test.cpp",
+          "line": 98
+        },
+        {
+          "name": "ConcurrentCompletionsAndLiveSnapshotsDoNotLoseUpdates",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/dashboard_counters_test.cpp",
+          "line": 117
+        }
+      ]
+    },
+    {
+      "name": "DbConnectionSmokeTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "ConnectsAndSelectsOne",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/db_connection_smoke_test.cpp",
+          "line": 12
+        }
+      ]
+    },
+    {
+      "name": "AccountManagerIntegrationTest",
+      "tests": 9,
+      "testsuite": [
+        {
+          "name": "F1DepositCommits",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/account_manager_integration_test.cpp",
+          "line": 72
+        },
+        {
+          "name": "F2WithdrawCommits",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/account_manager_integration_test.cpp",
+          "line": 80
+        },
+        {
+          "name": "F3InsufficientFundsRollsBack",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/account_manager_integration_test.cpp",
+          "line": 88
+        },
+        {
+          "name": "F4TransferIsAtomic",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/account_manager_integration_test.cpp",
+          "line": 97
+        },
+        {
+          "name": "F5MissingDestinationRollsBack",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/account_manager_integration_test.cpp",
+          "line": 107
+        },
+        {
+          "name": "F6NonPositiveAmountIsRejected",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/account_manager_integration_test.cpp",
+          "line": 116
+        },
+        {
+          "name": "F7SelfTransferIsRejected",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/account_manager_integration_test.cpp",
+          "line": 123
+        },
+        {
+          "name": "F8DuplicateRequestAppliesOnce",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/account_manager_integration_test.cpp",
+          "line": 130
+        },
+        {
+          "name": "F9BalanceReturnsCommittedValue",
+          "file": "\/mnt\/d\/Projects\/bank\/tests\/account_manager_integration_test.cpp",
+          "line": 141
+        }
+      ]
+    }
+  ]
+}

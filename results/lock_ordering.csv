@@ -1,0 +1,6 @@
+ordering,run,deadlock_or_retry_rate,status
+on,1,0,PHASE4_ORDERED_LOCKS
+on,2,0,PHASE4_ORDERED_LOCKS
+on,3,0,PHASE4_ORDERED_LOCKS
+off,2,NA,NOT_IMPLEMENTED
+off,3,NA,NOT_IMPLEMENTED

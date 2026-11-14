@@ -1,0 +1,46 @@
+services:
+  # MySQL 8 database server for the bank system
+  mysql:
+    image: mysql:8.0
+    container_name: bank_mysql
+    restart: unless-stopped
+    mem_limit: 512m
+    environment:
+      - MYSQL_ROOT_PASSWORD=${BANK_DB_PASS:-root}
+      - MYSQL_DATABASE=${BANK_DB_NAME:-bank}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./sql/seed.sql:/docker-entrypoint-initdb.d/02_seed.sql:ro
+      - ./sql/test_schema.sql:/docker-entrypoint-initdb.d/03_test_schema.sql:ro
+      - ./sql/test_seed.sql:/docker-entrypoint-initdb.d/04_test_seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p\"$${MYSQL_ROOT_PASSWORD:-root}\" || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 50
+
+  # Bank application service
+  bank:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: bank-txn-system:latest
+    container_name: bank_app
+    restart: "no"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      - BANK_DB_HOST=mysql
+      - BANK_DB_PORT=3306
+      - BANK_DB_USER=${BANK_DB_USER:-root}
+      - BANK_DB_PASS=${BANK_DB_PASS:-root}
+      - BANK_DB_NAME=${BANK_DB_NAME:-bank}
+      - BANK_DASHBOARD_AUTH_TOKEN=${BANK_DASHBOARD_AUTH_TOKEN:-}
+    working_dir: /workspace
+    command: ["--accounts", "10", "--clients", "5", "--ops", "100", "--workers", "4", "--seed", "42", "--verbose"]
+
+volumes:
+  mysql_data:
+    driver: local

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bank Ops Dashboard</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#dashboard">Skip to dashboard</a>
+  <div id="disconnected" class="banner" role="status" aria-live="polite">Connecting to live updates…</div>
+  <div id="database-error" class="banner hidden" role="status" aria-live="polite"></div>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">⌁</span><div><strong>BANK OPS</strong><small>CONCURRENCY CONTROL PLANE</small></div></div>
+    <div class="system-state"><span id="state-dot" class="state-dot idle"></span><span id="system-status">Idle</span><span class="divider"></span><span>Uptime <b id="uptime">0.0s</b></span><span id="mode-badge" class="mode-badge safe">SAFE</span><span id="invariant-badge" class="invariant-badge unknown">CHECK UNKNOWN</span></div>
+  </header>
+
+  <main id="dashboard" class="shell" tabindex="-1">
+    <section class="kpi-grid" aria-label="System key performance indicators">
+      <article class="kpi"><span>THROUGHPUT</span><strong id="throughput">0.0</strong><em>tx / sec</em></article>
+      <article class="kpi accent-green"><span>COMMITTED</span><strong id="committed">0</strong><em>successful operations</em></article>
+      <article class="kpi accent-red"><span>ROLLED BACK</span><strong id="rolled-back">0</strong><em>rejected / failed</em></article>
+      <article class="kpi accent-amber"><span>RETRIES</span><strong id="retries">0</strong><em>deadlock / timeout retries</em></article>
+      <article class="kpi"><span>LATENCY</span><strong><b id="avg-latency">0.0</b><small> / p95 <b id="p95-latency">0.0</b> ms</small></strong><em>service latency</em></article>
+      <article class="kpi accent-cyan"><span>TOTAL BALANCE</span><strong id="total-balance">—</strong><em>minor units</em></article>
+    </section>
+
+    <section class="chart-grid" aria-label="Live charts">
+      <article class="panel chart-panel wide"><div class="panel-head"><h2>Throughput over time</h2><span id="feed-status" class="live-pill unknown">CONNECTING</span></div><canvas id="throughput-chart" role="img" aria-label="Throughput history; current throughput is shown in the KPI above.">Throughput history</canvas></article>
+      <article class="panel chart-panel"><div class="panel-head"><h2>Outcomes</h2><span class="panel-meta">committed / rollback / retries</span></div><canvas id="outcome-chart" role="img" aria-label="Operation outcomes; counts are shown in the KPIs above.">Operation outcomes</canvas></article>
+      <article class="panel chart-panel"><div class="panel-head"><h2>Rollback reasons</h2><span id="reason-summary" class="panel-meta">latest counters</span></div><canvas id="reason-chart" role="img" aria-label="Rollback reasons; waiting for counters.">Rollback reasons</canvas></article>
+      <article class="panel chart-panel wide"><div class="panel-head"><h2>Queue pressure</h2><span class="panel-meta">depth / active workers</span></div><canvas id="queue-chart" role="img" aria-label="Queue and active-worker history; current counts are shown under simulation control.">Queue pressure</canvas></article>
+    </section>
+
+    <section class="two-column">
+      <article class="panel controls">
+        <div class="panel-head"><h2>Simulation control</h2><span class="panel-meta">bounded workload</span></div>
+        <form id="simulation-form" class="form-grid">
+          <label for="accounts">Accounts<input id="accounts" type="number" min="1" max="500" value="50" required></label>
+          <label for="clients">Clients<input id="clients" type="number" min="1" max="500" value="20" required></label>
+          <label for="ops">Ops / client<input id="ops" type="number" min="1" max="1000000" value="100" required></label>
+          <label for="workers">Workers<input id="workers" type="number" min="1" max="64" value="4" required></label>
+          <label for="seed">Seed<input id="seed" type="number" min="0" max="9007199254740991" value="42" required></label>
+          <label for="isolation">Isolation<select id="isolation"><option value="REPEATABLE_READ">REPEATABLE_READ</option><option>READ_COMMITTED</option><option>SERIALIZABLE</option></select></label>
+          <label class="range-label" for="hotspot">Hot-spot %<output id="hotspot-value" for="hotspot">0%</output><input id="hotspot" type="range" min="0" max="100" value="0"></label>
+          <label class="toggle-label" for="unsafe"><input id="unsafe" type="checkbox"><span class="toggle" aria-hidden="true"></span> Unsafe race mode</label>
+          <div class="button-row full"><button class="primary" type="submit">▶ Start simulation</button><button id="stop-simulation" class="danger" type="button">■ Stop</button></div>
+        </form>
+        <div class="submetrics"><span>Queue <b id="queue-depth">0</b></span><span>Active <b id="active-workers">0</b></span><span>Pool leases <b id="pool-leases">0</b></span><span>Lock waits <b id="lock-waits">0</b></span></div>
+      </article>
+
+      <article class="panel controls">
+        <div class="panel-head"><h2>Manual transaction</h2><span class="panel-meta">same request queue</span></div>
+        <form id="transaction-form" class="form-grid">
+          <label for="tx-type">Type<select id="tx-type"><option value="DEPOSIT">Deposit</option><option value="WITHDRAW">Withdraw</option><option value="TRANSFER">Transfer</option></select></label>
+          <label for="tx-from">From account<input id="tx-from" type="number" min="1" max="2147483647" value="1" required></label>
+          <label for="tx-to">To account<input id="tx-to" type="number" min="1" max="2147483647" value="2" disabled></label>
+          <label for="tx-amount">Amount<input id="tx-amount" type="text" inputmode="decimal" value="10.00" required></label>
+          <div class="button-row full"><button class="secondary" type="submit">Send transaction</button></div>
+        </form>
+        <div id="transaction-result" class="result-box" role="status" aria-live="polite" tabindex="-1">Start a simulation to submit a manual transaction.</div>
+        <div class="divider-line"></div>
+        <div class="panel-head compact"><h2>Maintenance</h2><span class="panel-meta">database tools</span></div>
+        <div class="button-row"><button id="check-button" class="secondary" type="button">✓ Consistency check</button><button id="recover-button" class="secondary" type="button">↻ Recover</button><button id="reset-button" class="danger-outline" type="button">Reset + reseed</button></div>
+      </article>
+    </section>
+
+    <section class="panel demos">
+      <div class="panel-head"><h2 id="demo-heading">Demo scenarios</h2><span class="panel-meta">controlled teaching paths</span></div>
+      <div class="demo-grid"><button data-demo="RACE" class="demo-card race"><span>01</span><strong>Race condition</strong><small>unsafe deposits → lost updates</small></button><button data-demo="SAFE" class="demo-card safe"><span>02</span><strong>Safe run</strong><small>ordered locks → correct balance</small></button><button data-demo="DEADLOCK" class="demo-card deadlock"><span>03</span><strong>Deadlock demo</strong><small>opposing transfers → finishes</small></button><button id="demo-check" class="demo-card check"><span>04</span><strong>Run consistency check</strong><small>I1–I5 invariant checklist</small></button><button data-demo="CRASH_RECOVER" class="demo-card crash"><span>05</span><strong>Crash + recover</strong><small>abort after debit → rollback + check</small></button></div>
+      <div id="demo-result" class="result-box demo-result" role="region" aria-labelledby="demo-heading" aria-live="polite" aria-atomic="true" tabindex="-1">Select a scenario to start the guided demo.</div>
+    </section>
+
+    <section class="data-grid">
+      <article class="panel table-panel">
+        <div class="panel-head"><h2 id="transactions-heading">Live transactions</h2><div class="table-tools"><label class="checkbox-label" for="transaction-autoscroll"><input id="transaction-autoscroll" type="checkbox" checked> Follow latest</label><label class="inline-filter" for="transaction-filter">Filter<select id="transaction-filter"><option value="">All</option><option value="COMMITTED">Committed</option><option value="ROLLED_BACK">Rolled back</option></select></label></div></div>
+        <div id="transactions-wrap" class="table-wrap" role="region" aria-labelledby="transactions-heading" tabindex="0"><table aria-labelledby="transactions-heading"><thead><tr><th scope="col">ID</th><th scope="col">Type</th><th scope="col">From → To</th><th scope="col">Amount</th><th scope="col">Status</th><th scope="col">Log</th></tr></thead><tbody id="transactions-body"></tbody></table></div>
+        <p id="transactions-status" class="table-status" role="status">Loading latest transactions…</p>
+      </article>
+      <article class="panel table-panel">
+        <div class="panel-head"><h2 id="accounts-heading">Accounts</h2><span id="accounts-page" class="panel-meta">Page 1</span></div>
+        <div id="accounts-wrap" class="table-wrap" role="region" aria-labelledby="accounts-heading" tabindex="0"><table aria-labelledby="accounts-heading"><thead><tr><th scope="col">ID</th><th scope="col">Owner</th><th scope="col">Balance</th><th scope="col">Status</th></tr></thead><tbody id="accounts-body"></tbody></table></div>
+        <div class="pagination"><div class="button-row"><button id="accounts-prev" type="button" aria-label="Previous accounts page" disabled>Previous</button><button id="accounts-next" type="button" aria-label="Next accounts page" disabled>Next</button></div><label class="inline-filter" for="accounts-limit">Per page<select id="accounts-limit"><option value="10">10</option><option value="25">25</option><option value="50" selected>50</option><option value="100">100</option></select></label></div>
+        <p id="accounts-status" class="table-status" role="status">Loading accounts…</p>
+      </article>
+    </section>
+  </main>
+  <div id="toast-region" class="toast-region" aria-live="polite"></div>
+  <script src="/vendor/chart.umd.min.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

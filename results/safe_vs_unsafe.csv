@@ -1,0 +1,7 @@
+mode,run,throughput_tx_s,balance_error,status
+safe,1,NA,0,NOT_MEASURED
+safe,2,NA,0,NOT_MEASURED
+safe,3,NA,0,NOT_MEASURED
+unsafe,1,NA,DEMO_LOST_UPDATES,MEASURED_BY_R2
+unsafe,2,NA,DEMO_LOST_UPDATES,MEASURED_BY_R2
+unsafe,3,NA,DEMO_LOST_UPDATES,MEASURED_BY_R2
